@@ -21,6 +21,7 @@ public class Employee {
 
     @Column(name = "password")
     private String password;
+
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
@@ -45,6 +46,70 @@ public class Employee {
         this.role = role;
         this.hireDate = hireDate;
         this.lastAcces = lastAcces;
+        this.status = status;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public LocalDate getHireDate() {
+        return hireDate;
+    }
+
+    public void setHireDate(LocalDate hireDate) {
+        this.hireDate = hireDate;
+    }
+
+    public LocalDateTime getLastAcces() {
+        return lastAcces;
+    }
+
+    public void setLastAcces(LocalDateTime lastAcces) {
+        this.lastAcces = lastAcces;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
         this.status = status;
     }
 }
