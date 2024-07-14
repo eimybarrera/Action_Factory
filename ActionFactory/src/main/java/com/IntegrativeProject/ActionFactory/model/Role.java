@@ -2,6 +2,9 @@ package com.IntegrativeProject.ActionFactory.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "role")
 public class Role {
@@ -12,6 +15,9 @@ public class Role {
 
     @Column(name = "name")
     private  String name;
+
+    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
+    private List<Employee> employees = new ArrayList<>();
 
     public Role() {
     }
