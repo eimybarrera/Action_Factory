@@ -7,51 +7,52 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "supplier")
 public class Supplier {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "supplier_id")
-    private int id;
+    @Column(name = "id")
+    private Long id;
 
     @Column(name = "name")
     private String name;
 
-    @Column(name = "addres")
+    @Column(name = "address")
     private String address;
 
     @Column(name = "phone_number")
     private String phoneNumber;
 
     @Column(name = "email")
-    private String emali;
+    private String email;
 
-    @Column(name = "web_site")
-    private String webSite;
+    @Column(name = "website")
+    private String website;
 
     @Column(name = "industry_sector")
     private String industrySector;
 
-    @Column(name = "joining_date")
-    private LocalDate joiningDate;
+    @Column(name = "registration_date")
+    private LocalDate registrationDate;
 
     public Supplier() {
     }
 
-    public Supplier(int id, String name, String address, String phoneNumber, String emali, String webSide, String industrySector, LocalDate joiningDate) {
+    public Supplier(Long id, String name, String address, String phoneNumber, String email, String website, String industrySector, LocalDate registrationDate) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.phoneNumber = phoneNumber;
-        this.emali = emali;
-        this.webSite = webSide;
+        this.email = email;
+        this.website = website;
         this.industrySector = industrySector;
-        this.joiningDate = joiningDate;
+        this.registrationDate = registrationDate;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -79,20 +80,20 @@ public class Supplier {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getWebSite() {
-        return webSite;
+    public String getEmail() {
+        return email;
     }
 
-    public void setWebSite(String webSite) {
-        this.webSite = webSite;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getEmali() {
-        return emali;
+    public String getWebsite() {
+        return website;
     }
 
-    public void setEmali(String emali) {
-        this.emali = emali;
+    public void setWebsite(String website) {
+        this.website = website;
     }
 
     public String getIndustrySector() {
@@ -103,11 +104,12 @@ public class Supplier {
         this.industrySector = industrySector;
     }
 
-    public LocalDate getJoiningDate() {
-        return joiningDate;
+    public LocalDate getRegistrationDate() {
+        return registrationDate;
     }
 
-    public void setJoiningDate(LocalDate joiningDate) {
-        this.joiningDate = joiningDate;
+    public void setRegistrationDate(LocalDate registrationDate) {
+        this.registrationDate = registrationDate;
     }
 }
+
