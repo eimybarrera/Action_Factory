@@ -1,17 +1,17 @@
 package com.IntegrativeProject.ActionFactory.model;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "employee")
 public class Employee {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "employee_id")
-    private int id;
+    @Column(name = "id")
+    private Long id;
 
     @Column(name = "name")
     private String name;
@@ -22,38 +22,38 @@ public class Employee {
     @Column(name = "password")
     private String password;
 
-    @ManyToOne()
-    @JoinColumn(name = "role_id", nullable = false)//el nulable significa que esta columna no puede ser nula
-    private Role role;
-
     @Column(name = "hire_date")
     private LocalDate hireDate;
 
-    @Column(name = "last_acces")
-    private LocalDateTime lastAcces;
+    @Column(name = "last_access")
+    private LocalDateTime lastAccess;
 
     @Column(name = "status")
     private  String status;
 
+    @ManyToOne()
+    @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = true)//el nullable significa que esta columna no puede ser nula
+    private Role role;
+
     public Employee() {
     }
 
-    public Employee(int id, String name, String email, String password, Role role, LocalDate hireDate, LocalDateTime lastAcces, String status) {
+    public Employee(Long id, String name, String email, String password, LocalDate hireDate, LocalDateTime lastAccess, String status, Role role) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
-        this.role = role;
         this.hireDate = hireDate;
-        this.lastAcces = lastAcces;
+        this.lastAccess = lastAccess;
         this.status = status;
+        this.role = role;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -81,14 +81,6 @@ public class Employee {
         this.password = password;
     }
 
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
     public LocalDate getHireDate() {
         return hireDate;
     }
@@ -97,12 +89,12 @@ public class Employee {
         this.hireDate = hireDate;
     }
 
-    public LocalDateTime getLastAcces() {
-        return lastAcces;
+    public LocalDateTime getLastAccess() {
+        return lastAccess;
     }
 
-    public void setLastAcces(LocalDateTime lastAcces) {
-        this.lastAcces = lastAcces;
+    public void setLastAccess(LocalDateTime lastAccess) {
+        this.lastAccess = lastAccess;
     }
 
     public String getStatus() {
@@ -111,6 +103,14 @@ public class Employee {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }
 

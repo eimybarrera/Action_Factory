@@ -30,7 +30,7 @@ public class EmployeeController {
 
     @PostMapping()
     public ResponseEntity<String> createEmployee(@RequestBody Map<String, Object> employeeMap) {
-        Optional<Role> roleOptional = roleService.findById((Integer) employeeMap.get("roleId"));
+        Optional<Role> roleOptional = roleService.findById((Long) employeeMap.get("roleId"));
         if (!roleOptional.isPresent()) {
             return ResponseEntity.badRequest().body("Role not found");
         }
@@ -43,7 +43,7 @@ public class EmployeeController {
         employee.setPassword((String) employeeMap.get("password"));
         employee.setRole(role);
         employee.setHireDate(LocalDate.parse((String) employeeMap.get("hireDate")));
-        employee.setLastAcces(LocalDateTime.parse((String) employeeMap.get("lastAcces")));
+        employee.setLastAccess(LocalDateTime.parse((String) employeeMap.get("lastAcces")));
         employee.setStatus((String) employeeMap.get("status"));
 
         employeeService.createEmployee(employee);
@@ -57,7 +57,7 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteEmployee(@PathVariable("id") int id){
+    public ResponseEntity<String> deleteEmployee(@PathVariable("id") Long id){
         this.employeeService.deleteEmployee(id);
         return  ResponseEntity.ok("employee successfully deleted");
     }
