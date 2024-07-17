@@ -11,7 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1/suppliers")
 public class SupplierController {
-    private SupplierService supplierService;
+    private final SupplierService supplierService;
 
     @Autowired
     public SupplierController(SupplierService supplierService){
@@ -24,7 +24,7 @@ public class SupplierController {
     }
 
     @GetMapping("{id}")
-    public Supplier getSupplierById(@PathVariable("id") int id){
+    public Supplier getSupplierById(@PathVariable("id") Long id){
         return this.supplierService.getSupplierById(id);
     }
 
@@ -32,13 +32,13 @@ public class SupplierController {
     public List<Supplier> getAllSuppliers(){return this.supplierService.getAllSuppliers();}
 
     @DeleteMapping("{id}")
-    public ResponseEntity<String> deleteSupplier(@PathVariable("id") int id){
+    public ResponseEntity<String> deleteSupplier(@PathVariable("id") Long id){
         this.supplierService.deleteSupplier(id);
         return ResponseEntity.ok("Supplier deleted successfully");
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Supplier> updateSupplier(@PathVariable("id") int id, @RequestBody Supplier supplier){
+    public ResponseEntity<Supplier> updateSupplier(@PathVariable("id") Long id, @RequestBody Supplier supplier){
         supplier.setId(id);
         Supplier updatedSupplier = this.supplierService.updateSupplier(supplier);
         return ResponseEntity.ok(updatedSupplier);

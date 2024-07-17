@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Service
 public class SupplierService {
-    private SupplierRepository supplierRepository;
+    private final SupplierRepository supplierRepository;
 
     @Autowired
     public SupplierService(SupplierRepository supplierRepository){
@@ -20,17 +20,14 @@ public class SupplierService {
     public void createSupplier(Supplier supplier){
         this.supplierRepository.save(supplier);
     }
-    public Supplier getSupplierById(int id){
+    public Supplier getSupplierById(Long id){
         Optional<Supplier> optionalSupplier = this.supplierRepository.findById(id);
-        if(optionalSupplier.isPresent()){
-            return optionalSupplier.get();
-        }
-        return new Supplier();
+        return optionalSupplier.orElseGet(Supplier::new);
     }
 
     public List<Supplier> getAllSuppliers(){return this.supplierRepository.findAll();}
 
-    public void deleteSupplier(int id){this.supplierRepository.deleteById(id);}
+    public void deleteSupplier(Long id){this.supplierRepository.deleteById(id);}
 
     public Supplier updateSupplier(Supplier supplier){
         Optional<Supplier> optionalSupplier = this.supplierRepository.findById(supplier.getId());
@@ -39,10 +36,10 @@ public class SupplierService {
             existingSupplier.setName(supplier.getName());
             existingSupplier.setAddress(supplier.getAddress());
             existingSupplier.setPhoneNumber(supplier.getPhoneNumber());
-            existingSupplier.setEmali(supplier.getEmali());
-            existingSupplier.setWebSite(supplier.getWebSite());
+            existingSupplier.setEmail(supplier.getEmail());
+            existingSupplier.setWebsite(supplier.getWebsite());
             existingSupplier.setIndustrySector(supplier.getIndustrySector());
-            existingSupplier.setJoiningDate(supplier.getJoiningDate());
+            existingSupplier.setRegistrationDate(supplier.getRegistrationDate());
 
             return this.supplierRepository.save(existingSupplier);
         }
