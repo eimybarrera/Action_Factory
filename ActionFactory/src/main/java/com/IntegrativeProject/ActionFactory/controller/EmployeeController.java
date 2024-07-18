@@ -19,25 +19,22 @@ import java.util.Optional;
 public class EmployeeController {
 
     private EmployeeService employeeService;
-    private RoleService roleService;
+
 
     @Autowired
-    public EmployeeController(EmployeeService employeeService, RoleService roleService) {
+    public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
-        this.roleService = roleService;
+
     }
 
 
     @PostMapping()
     public ResponseEntity<String> createEmployee(@RequestBody Employee employee) {
-        Long roleId = employee.getRole().getId();
-        Optional<Role> roleOptional = roleService.findById(roleId);
-        if (roleOptional.isEmpty()) {
-            return ResponseEntity.badRequest().body("Role not found");
+        try {
+            employeeService.createEmployee(employee);
+        }catch (Exception e){
+            return ResponseEntity.ok("Role not found");
         }
-        Role role = roleOptional.get();
-        employee.setRole(role);
-        employeeService.createEmployee(employee);
         return ResponseEntity.ok("Employee created");
     }
 
