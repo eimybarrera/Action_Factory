@@ -28,7 +28,7 @@ public class Device {
     private Supplier supplier;
 
     @ManyToOne
-    @JoinColumn(name = "employee_id", referencedColumnName = "id")
+    @JoinColumn(name = "employee_id", referencedColumnName = "employee_id")
     private Employee employee;
 
     public Device(){

@@ -22,9 +22,8 @@ public class Employee {
     @Column(name = "password")
     private String password;
 
-
     @ManyToOne()
-    @JoinColumn(name = "id", nullable = false)//el nulable significa que esta columna no puede ser nula
+    @JoinColumn(name = "role_id", nullable = false)//el nulable significa que esta columna no puede ser nula
     private Role role;
 
     @Column(name = "hire_date")
@@ -39,8 +38,8 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(Long id, String name, String email, String password, Role role, LocalDate hireDate, LocalDateTime lastAcces, String status) {
-        this.id = id;
+    public Employee( String name, String email, String password, Role role, LocalDate hireDate, LocalDateTime lastAcces, String status) {
+
         this.name = name;
         this.email = email;
         this.password = password;
@@ -114,4 +113,6 @@ public class Employee {
         this.status = status;
     }
 }
+
+
 

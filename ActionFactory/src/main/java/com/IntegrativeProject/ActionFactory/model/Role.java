@@ -11,10 +11,10 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_id")
-    private Long id;
+    private  Long id;
 
     @Column(name = "name")
-    private String name;
+    private  String name;
 
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
     private List<Employee> employees = new ArrayList<>();
@@ -22,8 +22,8 @@ public class Role {
     public Role() {
     }
 
-    public Role(Long id, String name) {
-        this.id = id;
+    public Role( String name) {
+
         this.name = name;
     }
 

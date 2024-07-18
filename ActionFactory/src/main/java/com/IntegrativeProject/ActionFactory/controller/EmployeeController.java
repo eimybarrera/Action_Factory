@@ -18,7 +18,7 @@ import java.util.Optional;
 @RequestMapping("api/v1/employees")
 public class EmployeeController {
 
-    private final EmployeeService employeeService;
+    private EmployeeService employeeService;
     private RoleService roleService;
 
     @Autowired
