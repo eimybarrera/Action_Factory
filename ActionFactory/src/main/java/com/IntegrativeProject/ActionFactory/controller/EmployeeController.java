@@ -19,34 +19,22 @@ import java.util.Optional;
 public class EmployeeController {
 
     private EmployeeService employeeService;
-    private RoleService roleService;
+
 
     @Autowired
-    public EmployeeController(EmployeeService employeeService, RoleService roleService) {
+    public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
-        this.roleService = roleService;
+
     }
 
 
     @PostMapping()
-    public ResponseEntity<String> createEmployee(@RequestBody Map<String, Object> employeeMap) {
-        Optional<Role> roleOptional = roleService.findById((Long) employeeMap.get("roleId"));
-        if (!roleOptional.isPresent()) {
-            return ResponseEntity.badRequest().body("Role not found");
+    public ResponseEntity<String> createEmployee(@RequestBody Employee employee) {
+        try {
+            employeeService.createEmployee(employee);
+        }catch (Exception e){
+            return ResponseEntity.ok("Role not found");
         }
-
-        Role role = roleOptional.get();
-
-        Employee employee = new Employee();
-        employee.setName((String) employeeMap.get("name"));
-        employee.setEmail((String) employeeMap.get("email"));
-        employee.setPassword((String) employeeMap.get("password"));
-        employee.setRole(role);
-        employee.setHireDate(LocalDate.parse((String) employeeMap.get("hireDate")));
-        employee.setLastAccess(LocalDateTime.parse((String) employeeMap.get("lastAcces")));
-        employee.setStatus((String) employeeMap.get("status"));
-
-        employeeService.createEmployee(employee);
         return ResponseEntity.ok("Employee created");
     }
 
