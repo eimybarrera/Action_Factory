@@ -22,8 +22,9 @@ public class Employee {
     @Column(name = "password")
     private String password;
 
+
     @ManyToOne()
-    @JoinColumn(name = "role_id", nullable = false)//el nulable significa que esta columna no puede ser nula
+    @JoinColumn(name = "id", nullable = false)//el nulable significa que esta columna no puede ser nula
     private Role role;
 
     @Column(name = "hire_date")
