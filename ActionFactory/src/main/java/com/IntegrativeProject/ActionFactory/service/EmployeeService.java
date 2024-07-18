@@ -13,6 +13,7 @@ public class EmployeeService {
 
     private EmployeeRepository employeeRepository;
 
+
     @Autowired
     public EmployeeService(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
@@ -26,7 +27,7 @@ public class EmployeeService {
         return this.employeeRepository.findAll();
     }
 
-    public  void  deleteEmployee(int id){
+    public  void  deleteEmployee(Long id){
         Optional<Employee> employee= this.employeeRepository.findById(id);
         if(employee.isPresent()){
             this.employeeRepository.delete(employee.get());
