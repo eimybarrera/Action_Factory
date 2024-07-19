@@ -1,4 +1,4 @@
-package com.IntegrativeProject.ActionFactory.supplierExceptions;
+package com.IntegrativeProject.ActionFactory.Exceptions;
 
 public class SupplierException extends RuntimeException{
 

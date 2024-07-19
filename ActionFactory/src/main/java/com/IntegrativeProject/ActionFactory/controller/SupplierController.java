@@ -2,10 +2,9 @@ package com.IntegrativeProject.ActionFactory.controller;
 
 import com.IntegrativeProject.ActionFactory.model.Supplier;
 import com.IntegrativeProject.ActionFactory.service.SupplierService;
-import com.IntegrativeProject.ActionFactory.supplierExceptions.SupplierException;
+import com.IntegrativeProject.ActionFactory.Exceptions.SupplierException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

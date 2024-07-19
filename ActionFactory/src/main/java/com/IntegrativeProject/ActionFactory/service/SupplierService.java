@@ -2,7 +2,7 @@ package com.IntegrativeProject.ActionFactory.service;
 
 import com.IntegrativeProject.ActionFactory.model.Supplier;
 import com.IntegrativeProject.ActionFactory.repository.SupplierRepository;
-import com.IntegrativeProject.ActionFactory.supplierExceptions.*;
+import com.IntegrativeProject.ActionFactory.Exceptions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
