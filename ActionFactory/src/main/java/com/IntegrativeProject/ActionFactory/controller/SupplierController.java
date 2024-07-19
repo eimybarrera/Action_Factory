@@ -23,7 +23,7 @@ public class SupplierController {
     public ResponseEntity<String> createSupplier(@RequestBody Supplier supplier) {
         try {
             this.supplierService.createSupplier(supplier);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Supplier created succesfully");
+            return ResponseEntity.status(HttpStatus.CREATED).body("Supplier created successfully");
         }catch (SupplierException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
@@ -44,10 +44,14 @@ public class SupplierController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Supplier> updateSupplier(@PathVariable("id") Long id, @RequestBody Supplier supplier){
+    public ResponseEntity<String> updateSupplier(@PathVariable("id") Long id, @RequestBody Supplier supplier){
         supplier.setId(id);
-        Supplier updatedSupplier = this.supplierService.updateSupplier(supplier);
-        return ResponseEntity.ok(updatedSupplier);
+        try {
+            Supplier updatedSupplier = this.supplierService.updateSupplier(supplier);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Supplier updated successfully");
+        }catch (SupplierException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
 }
