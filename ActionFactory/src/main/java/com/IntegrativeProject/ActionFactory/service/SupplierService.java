@@ -2,6 +2,7 @@ package com.IntegrativeProject.ActionFactory.service;
 
 import com.IntegrativeProject.ActionFactory.model.Supplier;
 import com.IntegrativeProject.ActionFactory.repository.SupplierRepository;
+import com.IntegrativeProject.ActionFactory.Exceptions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,29 @@ public class SupplierService {
         this.supplierRepository = supplierRepository;
     }
 
-    public void createSupplier(Supplier supplier){
+    public void createSupplier(Supplier supplier) {
+        if (supplier.getName() == null || supplier.getName().isEmpty() || supplier.getName().length() < 2) {
+            throw new SupplierException("Name not valid, check field");
+        }
+        if (supplier.getAddress() == null || supplier.getAddress().isEmpty()) {
+            throw new SupplierException("Address not valid, check field");
+        }
+        if (supplier.getPhoneNumber() == null || supplier.getPhoneNumber().isEmpty() || supplier.getPhoneNumber().length() < 10) {
+            throw new SupplierException("Phone number not valid, check field");
+        }
+        if (supplier.getEmail() == null || supplier.getEmail().isEmpty() || !supplier.getEmail().contains("@")) {
+            throw new SupplierException("Email not valid, check field");
+        }
+        if (supplier.getWebsite() == null || supplier.getWebsite().isEmpty() || !supplier.getWebsite().startsWith("http")) {
+            throw new SupplierException("Website not valid, check field");
+        }
+        if (supplier.getIndustrySector() == null || supplier.getIndustrySector().isEmpty()) {
+            throw new SupplierException("Industry sector not valid, check field");
+        }
+        if (supplier.getRegistrationDate() == null) {
+            throw new SupplierException("Registration date not valid, check field");
+        }
+
         this.supplierRepository.save(supplier);
     }
     public Supplier getSupplierById(Long id){
