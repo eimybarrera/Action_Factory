@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/suppliers")
@@ -30,17 +31,32 @@ public class SupplierController {
     }
 
     @GetMapping("{id}")
-    public Supplier getSupplierById(@PathVariable("id") Long id){
-        return this.supplierService.getSupplierById(id);
+    public ResponseEntity<?> getSupplierById(@PathVariable("id") Long id) {
+        try {
+            return ResponseEntity.ok(this.supplierService.getSupplierById(id));
+        } catch (SupplierException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @GetMapping()
-    public List<Supplier> getAllSuppliers(){return this.supplierService.getAllSuppliers();}
+    public ResponseEntity<?> getAllSuppliers(){
+        try {
+            return ResponseEntity.ok(this.supplierService.getAllSuppliers());
+        }catch(SupplierException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
 
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteSupplier(@PathVariable("id") Long id){
-        this.supplierService.deleteSupplier(id);
-        return ResponseEntity.ok("Supplier deleted successfully");
+        try{
+            this.supplierService.deleteSupplier(id);
+            return ResponseEntity.ok("Supplier deleted successfully");
+        }catch (SupplierException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+
     }
 
     @PutMapping("{id}")
