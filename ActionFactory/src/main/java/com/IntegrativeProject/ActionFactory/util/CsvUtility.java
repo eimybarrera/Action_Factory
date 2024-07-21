@@ -12,6 +12,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -27,14 +28,14 @@ public class CsvUtility {
 
 //  Método para verificar el formato CSV
     public static boolean hasCsvFormat(MultipartFile file) {
-        return type.equals(file.getContentType());
+        return file != null && file.getContentType().equals("text/csv");
     }
 
 //  Método para convertir un archivo CSV en una lista de objetos Device
     public static List<Device> csvToDeviceList(InputStream is) {
         try (
 //              Lectura del InputStream de archivo CSV mediante BufferedReader
-                BufferedReader bReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+                BufferedReader bReader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
 //                                                                                      wFRAH()                 wIHC()            wT()
                 CSVParser csvParser = new CSVParser(bReader, CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());      //Parsea el archivo CSV usando CSVParser
         ) {                                                                                                                                       //wFRAH() -> indica que la primera fila del archivo CSV son los encabezados de las columnas
@@ -43,15 +44,19 @@ public class CsvUtility {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
 
             for (CSVRecord csvRecord : csvRecords) {
-                Device device = new Device();
-                device.setImei(Long.parseLong(csvRecord.get("imei")));
-                device.setStatus(csvRecord.get("status"));
-                device.setScore(Integer.parseInt(csvRecord.get("score")));
-                device.setValidationStatus(csvRecord.get("validation_status"));
-                device.setValidationDate(LocalDateTime.parse(csvRecord.get("validation_date")));
-                device.setSupplier(new Supplier(Long.parseLong(csvRecord.get("supplier_id"))));
-                device.setEmployee(new Employee(Long.parseLong(csvRecord.get("employee_id"))));
-                deviceList.add(device);
+                try {
+                    Device device = new Device();
+                    device.setImei(Long.parseLong(csvRecord.get("imei")));
+                    device.setStatus(csvRecord.get("status"));
+                    device.setScore(Integer.parseInt(csvRecord.get("score")));
+                    device.setValidationStatus(csvRecord.get("validation_status"));
+                    device.setValidationDate(LocalDateTime.parse(csvRecord.get("validation_date"), formatter));
+                    device.setSupplier(new Supplier(Long.parseLong(csvRecord.get("supplier_id"))));
+                    device.setEmployee(new Employee(Long.parseLong(csvRecord.get("employee_id"))));
+                    deviceList.add(device);
+                } catch (Exception e) {
+                    System.out.println("Error parsing record: " + e.getMessage());
+                }
             }
             return deviceList;
         } catch (IOException e) {

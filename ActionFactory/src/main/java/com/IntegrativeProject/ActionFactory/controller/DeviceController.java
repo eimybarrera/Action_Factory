@@ -20,7 +20,7 @@ public class DeviceController {
     @Autowired
     private DeviceServiceImpl deviceServiceImpl;
 
-    @PostMapping("/upload")
+    @PostMapping("/csv/upload")
     public ResponseEntity<String> uploadDevice(@RequestParam("file") MultipartFile file) {
         String message = "";
         if (CsvUtility.hasCsvFormat(file)) {

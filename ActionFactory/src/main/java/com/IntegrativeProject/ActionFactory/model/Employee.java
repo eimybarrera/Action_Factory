@@ -41,8 +41,7 @@ public class Employee {
     public Employee(Long id) {
     }
 
-    public Employee(Long id, String name, String email, String password, LocalDate hireDate, LocalDateTime lastAccess, String status, Role role) {
-        this.id = id;
+    public Employee(String name, String email, String password, LocalDate hireDate, LocalDateTime lastAccess, String status, Role role) {
         this.name = name;
         this.email = email;
         this.password = password;
@@ -51,8 +50,6 @@ public class Employee {
         this.status = status;
         this.role = role;
     }
-
-
 
     public Long getId() {
         return id;

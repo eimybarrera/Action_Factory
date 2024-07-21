@@ -10,6 +10,7 @@ import java.util.Optional;
 
 @Service
 public class RoleService {
+
     private final RoleRepository roleRepository;
 
     @Autowired
@@ -17,10 +18,14 @@ public class RoleService {
         this.roleRepository = roleRepository;
     }
 
+    public Optional<Role> getRoleById(Long id) {
+        return roleRepository.findById(id);
+    }
 
     public  void createRole(Role role){
         this.roleRepository.save(role);
     }
+
     public List<Role> seeRoles(){
         return  this.roleRepository.findAll();
     }
