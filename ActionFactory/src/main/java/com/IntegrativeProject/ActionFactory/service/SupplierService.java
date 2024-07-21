@@ -2,6 +2,7 @@ package com.IntegrativeProject.ActionFactory.service;
 
 import com.IntegrativeProject.ActionFactory.model.Supplier;
 import com.IntegrativeProject.ActionFactory.repository.SupplierRepository;
+import com.IntegrativeProject.ActionFactory.Exceptions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,32 +18,81 @@ public class SupplierService {
         this.supplierRepository = supplierRepository;
     }
 
-    public void createSupplier(Supplier supplier){
+    public void createSupplier(Supplier supplier) {
+        validateSupplier(supplier);
         this.supplierRepository.save(supplier);
     }
-    public Supplier getSupplierById(Long id){
-        Optional<Supplier> optionalSupplier = this.supplierRepository.findById(id);
-        return optionalSupplier.orElseGet(Supplier::new);
+    public Optional getSupplierById(Long id){
+        Optional optionalSupplier = this.supplierRepository.findById(id);
+        if(!optionalSupplier.isPresent()){
+            throw new SupplierException("Supplier not found, try again with a valid id");
+        }
+        return optionalSupplier;
     }
 
-    public List<Supplier> getAllSuppliers(){return this.supplierRepository.findAll();}
+    public List<Supplier> getAllSuppliers(){
+        List<Supplier> suppliers = this.supplierRepository.findAll();
+        if(suppliers.isEmpty()){
+            throw new SupplierException("There is no Suppliers to show, try saving one");
+        }
+        return suppliers;
+    }
 
-    public void deleteSupplier(Long id){this.supplierRepository.deleteById(id);}
+    //Method defined to delete supplier, if not found throw a supplier exception
+    public void deleteSupplier(Long id){
+        Optional optionalSupplier = this.supplierRepository.findById(id);
+        if(!optionalSupplier.isPresent()){
+            throw new SupplierException("Supplier not found, try again with a valid id\"");
+        }
+        this.supplierRepository.deleteById(id);
+    }
 
+    //Method defined to update Supplier information,
     public Supplier updateSupplier(Supplier supplier){
         Optional<Supplier> optionalSupplier = this.supplierRepository.findById(supplier.getId());
-        if(optionalSupplier.isPresent()){
-            Supplier existingSupplier = optionalSupplier.get();
-            existingSupplier.setName(supplier.getName());
-            existingSupplier.setAddress(supplier.getAddress());
-            existingSupplier.setPhoneNumber(supplier.getPhoneNumber());
-            existingSupplier.setEmail(supplier.getEmail());
-            existingSupplier.setWebsite(supplier.getWebsite());
-            existingSupplier.setIndustrySector(supplier.getIndustrySector());
-            existingSupplier.setRegistrationDate(supplier.getRegistrationDate());
+        if(!optionalSupplier.isPresent()){ //If supplier is not found by id, throw exception
+            throw new SupplierException("Supplier not found, try again with a valid id\"");
+        } //If supplier is found, set new information
+        Supplier existingSupplier = optionalSupplier.get();
+        existingSupplier.setName(supplier.getName());
+        existingSupplier.setAddress(supplier.getAddress());
+        existingSupplier.setPhoneNumber(supplier.getPhoneNumber());
+        existingSupplier.setEmail(supplier.getEmail());
+        existingSupplier.setWebsite(supplier.getWebsite());
+        existingSupplier.setIndustrySector(supplier.getIndustrySector());
+        existingSupplier.setRegistrationDate(supplier.getRegistrationDate());
 
-            return this.supplierRepository.save(existingSupplier);
+        return this.supplierRepository.save(existingSupplier);
+    }
+
+    //This method validates if the info sent to create a new Supplier is valid
+    public void validateSupplier(Supplier supplier){
+        if (supplier.getName() == null || supplier.getName().isEmpty() || supplier.getName().length() < 2) {
+            throw new SupplierException("Name not valid, check field");
         }
-        return new Supplier();
+        if (supplier.getAddress() == null || supplier.getAddress().isEmpty()) {
+            throw new SupplierException("Address not valid, check field");
+        }
+        if (supplier.getPhoneNumber() == null || supplier.getPhoneNumber().isEmpty() || supplier.getPhoneNumber().length() < 10) {
+            throw new SupplierException("Phone number not valid, check field");
+        }
+        if (supplier.getEmail() == null ||supplier.getEmail().isEmpty() || !supplier.getEmail().contains("@")) {
+            throw new SupplierException("Email not valid, check field");
+        }
+        //Checks that the email doesn't exist, if existing then throws an exception because the supplier already exists.
+       if (supplierRepository.findAll().stream()
+               .anyMatch(existingSupplier -> existingSupplier.getEmail().equals(supplier.getEmail()))){
+            throw new SupplierException("Supplier Already exists");
+       }
+       ;
+        if (supplier.getWebsite() == null || supplier.getWebsite().isEmpty() || !supplier.getWebsite().startsWith("http")) {
+            throw new SupplierException("Website not valid, check field");
+        }
+        if (supplier.getIndustrySector() == null || supplier.getIndustrySector().isEmpty()) {
+            throw new SupplierException("Industry sector not valid, check field");
+        }
+        if (supplier.getRegistrationDate() == null) {
+            throw new SupplierException("Registration date not valid, check field");
+        }
     }
 }
