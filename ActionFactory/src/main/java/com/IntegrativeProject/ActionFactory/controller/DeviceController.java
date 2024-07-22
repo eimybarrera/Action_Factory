@@ -23,18 +23,25 @@ public class DeviceController {
     @PostMapping("/csv/upload")
     public ResponseEntity<String> uploadDevice(@RequestParam("file") MultipartFile file) {
         String message = "";
-        if (CsvUtility.hasCsvFormat(file)) {
-            try {
+        try {
+            if (file.isEmpty()) {
+                message = "No file selected!";
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
+            }
+
+            if (CsvUtility.hasCsvFormat(file)) {
                 deviceServiceImpl.save(file);
                 message = "The device has been uploaded successfully: " + file.getOriginalFilename();
                 return ResponseEntity.status(HttpStatus.OK).body(message);
-            } catch (Exception e) {
-                message = "The device has not been uploaded successfully: " + file.getOriginalFilename() + "!";
-                return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message);
+            } else {
+                message = "Please upload a CSV file!";
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
             }
+        } catch (Exception e) {
+            message = "The device has not been uploaded successfully: " + file.getOriginalFilename() + "!";
+            System.out.println("Exception: " + e.getMessage());  // Añade logging aquí
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message);
         }
-        message = "Please upload a CSV file!";
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
     }
 
     @GetMapping("/device-list")

@@ -31,7 +31,7 @@ public class Employee {
     @Column(name = "status")
     private  String status;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = true)//el nullable significa que esta columna no puede ser nula
     private Role role;
 

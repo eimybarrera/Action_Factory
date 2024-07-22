@@ -3,6 +3,8 @@ package com.IntegrativeProject.ActionFactory.util;
 import com.IntegrativeProject.ActionFactory.model.Device;
 import com.IntegrativeProject.ActionFactory.model.Employee;
 import com.IntegrativeProject.ActionFactory.model.Supplier;
+import com.IntegrativeProject.ActionFactory.repository.EmployeeRepository;
+import com.IntegrativeProject.ActionFactory.repository.SupplierRepository;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -20,6 +22,14 @@ import java.util.List;
 
 public class CsvUtility {
 
+    private final EmployeeRepository employeeRepository;
+    private final SupplierRepository supplierRepository;
+
+    public CsvUtility(EmployeeRepository employeeRepository, SupplierRepository supplierRepository) {
+        this.employeeRepository = employeeRepository;
+        this.supplierRepository = supplierRepository;
+    }
+
 //  Definición del tipo MIME(Multipurpose Internet Mail Extensions) para archivos CSV
     public static String type = "text/csv";
 
@@ -32,7 +42,7 @@ public class CsvUtility {
     }
 
 //  Método para convertir un archivo CSV en una lista de objetos Device
-    public static List<Device> csvToDeviceList(InputStream is) {
+    public List<Device> csvToDeviceList(InputStream is) {
         try (
 //              Lectura del InputStream de archivo CSV mediante BufferedReader
                 BufferedReader bReader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
@@ -41,7 +51,7 @@ public class CsvUtility {
         ) {                                                                                                                                       //wFRAH() -> indica que la primera fila del archivo CSV son los encabezados de las columnas
             List<Device> deviceList = new ArrayList<>();                                                                                          //wIHC() ->  ignora las diferencias de mayúsculas/minúsculas al comparar los nombres de las columanas con los encabezados predeterminados
             Iterable<CSVRecord> csvRecords = csvParser.getRecords();                                                                              //wT() -> indica que se deben eliminar los espacios en blanco alrededor de los valores de las celdas del CSV durante el proceso de parsing
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy HH:mm:ss");
 
             for (CSVRecord csvRecord : csvRecords) {
                 try {
@@ -51,8 +61,15 @@ public class CsvUtility {
                     device.setScore(Integer.parseInt(csvRecord.get("score")));
                     device.setValidationStatus(csvRecord.get("validation_status"));
                     device.setValidationDate(LocalDateTime.parse(csvRecord.get("validation_date"), formatter));
-                    device.setSupplier(new Supplier(Long.parseLong(csvRecord.get("supplier_id"))));
-                    device.setEmployee(new Employee(Long.parseLong(csvRecord.get("employee_id"))));
+
+                    Long supplierId = Long.parseLong(csvRecord.get("supplier_id"));
+                    Supplier supplier = supplierRepository.findById(supplierId).orElseThrow(() -> new IllegalStateException("Supplier not found: " + supplierId));
+                    device.setSupplier(supplier);
+
+                    Long employeeId = Long.parseLong(csvRecord.get("employee_id"));
+                    Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new IllegalStateException("Employee not found: " + employeeId));
+                    device.setEmployee(employee);
+
                     deviceList.add(device);
                 } catch (Exception e) {
                     System.out.println("Error parsing record: " + e.getMessage());

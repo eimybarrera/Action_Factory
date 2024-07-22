@@ -32,7 +32,7 @@ public class EmployeeController {
     public ResponseEntity<String> createEmployee(@RequestBody Employee employee) {
         try {
             // Convert role ID to Role entity
-            Role role = roleService.getRoleById(employee.getRole().getId()).orElseThrow(() -> new RuntimeException("Role not found"));
+            Role role = roleService.findById(employee.getRole().getId()).orElseThrow(() -> new RuntimeException("Role not found"));
             employee.setRole(role);
 
             employeeService.createEmployee(employee);

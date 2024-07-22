@@ -18,10 +18,6 @@ public class RoleService {
         this.roleRepository = roleRepository;
     }
 
-    public Optional<Role> getRoleById(Long id) {
-        return roleRepository.findById(id);
-    }
-
     public  void createRole(Role role){
         this.roleRepository.save(role);
     }

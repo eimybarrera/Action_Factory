@@ -3,11 +3,9 @@ package com.IntegrativeProject.ActionFactory.service;
 import com.IntegrativeProject.ActionFactory.model.Device;
 import com.IntegrativeProject.ActionFactory.model.InvalidDevice;
 import com.IntegrativeProject.ActionFactory.model.ValidDevice;
-import com.IntegrativeProject.ActionFactory.repository.DeviceRepository;
-import com.IntegrativeProject.ActionFactory.repository.InvalidDeviceRepository;
-import com.IntegrativeProject.ActionFactory.repository.SupplierRepository;
-import com.IntegrativeProject.ActionFactory.repository.ValidDeviceRepository;
+import com.IntegrativeProject.ActionFactory.repository.*;
 import com.IntegrativeProject.ActionFactory.util.CsvUtility;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,18 +25,23 @@ public class DeviceServiceImpl implements DeviceService {
     SupplierRepository supplierRepository;
 
     @Autowired
+    EmployeeRepository employeeRepository;
+
+    @Autowired
     InvalidDeviceRepository invalidDeviceRepository;
 
     @Autowired
     ValidDeviceRepository validDeviceRepository;
 
     // Método para almacenar los datos CSV en la base de datos
+    @Transactional
     @Override
     public void save(MultipartFile file) {
         try {
+            CsvUtility csvUtility = new CsvUtility(employeeRepository, supplierRepository);
             List<InvalidDevice> invalidDeviceList = new ArrayList<>();
             List<ValidDevice> validDeviceList = new ArrayList<>();
-            List<Device> deviceList = CsvUtility.csvToDeviceList(file.getInputStream());
+            List<Device> deviceList = csvUtility.csvToDeviceList(file.getInputStream());
 
             // Ordenar lista de dispositivos por IMEI de forma ascendente
             List<Device> sortedDeviceList = deviceList.stream()
@@ -75,8 +78,9 @@ public class DeviceServiceImpl implements DeviceService {
                         invalidDeviceList.add(new InvalidDevice(device));
                     }
                 } else {
-                    System.out.println("The device with imei: " + device.getImei() + " has a supplier that doesn't exist");
                     invalidDeviceList.add(new InvalidDevice(device));
+                    throw new RuntimeException("Supplier with ID " + device.getSupplier().getId() + " does not exist.");
+
                 }
             }
 

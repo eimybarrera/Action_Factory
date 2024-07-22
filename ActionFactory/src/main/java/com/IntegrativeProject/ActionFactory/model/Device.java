@@ -9,6 +9,9 @@ import java.time.LocalDateTime;
 public class Device {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Column(name = "imei", unique = true)
     private Long imei;
 

@@ -9,11 +9,12 @@ import java.time.LocalDate;
 public class InvalidDevice {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "validation_id")
     private Long validationId;
 
     @OneToOne (cascade = CascadeType.ALL)
-    @JoinColumn(name ="imei")
+    @JoinColumn(name ="id")
     private Device device;
 
     public InvalidDevice() {
