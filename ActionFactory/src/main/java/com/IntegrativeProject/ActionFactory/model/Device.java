@@ -2,12 +2,16 @@ package com.IntegrativeProject.ActionFactory.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "device")
 public class Device {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Column(name = "imei", unique = true)
     private Long imei;
 
@@ -21,20 +25,20 @@ public class Device {
     private String validationStatus;
 
     @Column(name = "validation_date")
-    private LocalDate validationDate;
+    private LocalDateTime validationDate;
 
     @ManyToOne
     @JoinColumn(name = "supplier_id", referencedColumnName = "id")
     private Supplier supplier;
 
     @ManyToOne
-    @JoinColumn(name = "employee_id", referencedColumnName = "employee_id")
+    @JoinColumn(name = "employee_id", referencedColumnName = "id")
     private Employee employee;
 
     public Device(){
     }
 
-    public Device(Long imei, String status, int score, String validationStatus, LocalDate validationDate, Supplier supplier, Employee employee) {
+    public Device(Long imei, String status, int score, String validationStatus, LocalDateTime validationDate, Supplier supplier, Employee employee) {
         this.imei = imei;
         this.status = status;
         this.score = score;
@@ -76,11 +80,11 @@ public class Device {
         this.validationStatus = validationStatus;
     }
 
-    public LocalDate getValidationDate() {
+    public LocalDateTime getValidationDate() {
         return validationDate;
     }
 
-    public void setValidationDate(LocalDate validationDate) {
+    public void setValidationDate(LocalDateTime validationDate) {
         this.validationDate = validationDate;
     }
 

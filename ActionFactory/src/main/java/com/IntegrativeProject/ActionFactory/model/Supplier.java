@@ -37,8 +37,11 @@ public class Supplier {
     public Supplier() {
     }
 
-    public Supplier(Long id, String name, String address, String phoneNumber, String email, String website, String industrySector, LocalDate registrationDate) {
+    public Supplier(Long id) {
         this.id = id;
+    }
+
+    public Supplier(String name, String address, String phoneNumber, String email, String website, String industrySector, LocalDate registrationDate) {
         this.name = name;
         this.address = address;
         this.phoneNumber = phoneNumber;
