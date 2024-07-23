@@ -39,6 +39,15 @@ public class EmployeeController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+    @PostMapping("/list")
+    public ResponseEntity<String> createEmployees(@RequestBody List<Employee>  employees) {
+        try {
+            employeeService.createEmployees(employees);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Employees created successfully");
+        }catch (EmployeeException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
 
 
     @GetMapping()

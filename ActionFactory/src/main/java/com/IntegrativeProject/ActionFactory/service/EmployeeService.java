@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +37,21 @@ public class EmployeeService {
         employee.setRole(role);
         validateEmployee(employee);
         this.employeeRepository.save(employee);
+    }
+    public  void createEmployees(List<Employee> employees){
+        List<Employee> employeeList= new ArrayList<>();
+        for (Employee employee: employees){
+            Long roleId = employee.getRole().getId();
+            Optional<Role> roleOptional = roleService.findById(roleId);
+            if (roleOptional.isEmpty()) {
+                throw new EmployeeException("Role not found for employee"+ employee.getName());
+            }
+            Role role = roleOptional.get();
+            employee.setRole(role);
+            validateEmployee(employee);
+            employeeList.add(employee);
+        }
+        this.employeeRepository.saveAll(employeeList);
     }
 
     public List<Employee>seeEmployees(){
