@@ -41,6 +41,17 @@ public class Supplier {
         this.id = id;
     }
 
+    public Supplier(Long id, String name, String address, String phoneNumber, String email, String website, String industrySector, LocalDate registrationDate) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.website = website;
+        this.industrySector = industrySector;
+        this.registrationDate = registrationDate;
+    }
+
     public Supplier(String name, String address, String phoneNumber, String email, String website, String industrySector, LocalDate registrationDate) {
         this.name = name;
         this.address = address;
