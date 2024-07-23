@@ -13,6 +13,9 @@ public class Employee {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "identification_card")
+    private Long identificationCard;
+
     @Column(name = "name")
     private String name;
 
@@ -41,7 +44,8 @@ public class Employee {
     public Employee(Long id) {
     }
 
-    public Employee(String name, String email, String password, LocalDate hireDate, LocalDateTime lastAccess, String status, Role role) {
+    public Employee(Long identificationCard, String name, String email, String password, LocalDate hireDate, LocalDateTime lastAccess, String status, Role role) {
+        this.identificationCard = identificationCard;
         this.name = name;
         this.email = email;
         this.password = password;
@@ -49,6 +53,14 @@ public class Employee {
         this.lastAccess = lastAccess;
         this.status = status;
         this.role = role;
+    }
+
+    public Long getIdentificationCard() {
+        return identificationCard;
+    }
+
+    public void setIdentificationCard(Long identificationCard) {
+        this.identificationCard = identificationCard;
     }
 
     public Long getId() {
