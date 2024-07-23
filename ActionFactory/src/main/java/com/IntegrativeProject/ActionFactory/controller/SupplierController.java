@@ -1,15 +1,14 @@
 package com.IntegrativeProject.ActionFactory.controller;
 
+import com.IntegrativeProject.ActionFactory.Exceptions.ApiRequestException;
 import com.IntegrativeProject.ActionFactory.model.Supplier;
 import com.IntegrativeProject.ActionFactory.service.SupplierService;
-import com.IntegrativeProject.ActionFactory.Exceptions.SupplierException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/suppliers")
@@ -25,16 +24,22 @@ public class SupplierController {
         try {
             this.supplierService.createSupplier(supplier);
             return ResponseEntity.status(HttpStatus.CREATED).body("Supplier created successfully");
-        }catch (SupplierException e){
+        }catch (ApiRequestException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
+    }
+
+    @PostMapping("/list")
+    public ResponseEntity<String> createSuppliers(@RequestBody List<Supplier>  suppliers) {
+        supplierService.createSuppliers(suppliers);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Suppliers created successfully");
     }
 
     @GetMapping("{id}")
     public ResponseEntity<?> getSupplierById(@PathVariable("id") Long id) {
         try {
             return ResponseEntity.ok(this.supplierService.getSupplierById(id));
-        } catch (SupplierException e) {
+        } catch (ApiRequestException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
@@ -43,7 +48,7 @@ public class SupplierController {
     public ResponseEntity<?> getAllSuppliers(){
         try {
             return ResponseEntity.ok(this.supplierService.getAllSuppliers());
-        }catch(SupplierException e){
+        }catch(ApiRequestException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
@@ -53,7 +58,7 @@ public class SupplierController {
         try{
             this.supplierService.deleteSupplier(id);
             return ResponseEntity.ok("Supplier deleted successfully");
-        }catch (SupplierException e){
+        }catch (ApiRequestException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
 
@@ -65,7 +70,7 @@ public class SupplierController {
         try {
             Supplier updatedSupplier = this.supplierService.updateSupplier(supplier);
             return ResponseEntity.status(HttpStatus.CREATED).body("Supplier updated successfully");
-        }catch (SupplierException e){
+        }catch (ApiRequestException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
