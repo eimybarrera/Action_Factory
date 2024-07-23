@@ -93,22 +93,21 @@ public class SupplierService {
         if (supplier.getEmail() == null ||supplier.getEmail().isEmpty() || !supplier.getEmail().contains("@")) {
             throw new ApiRequestException("Email not valid, check field");
         }
-        //Checks that the email doesn't exist, if existing then throws an exception because the supplier already exists.
-       if (supplierRepository.findAll().stream()
-               .anyMatch(existingSupplier -> existingSupplier.getEmail().equals(supplier.getEmail()))){
+        if (supplierRepository.findAll().stream()
+                .anyMatch(existingSupplier -> existingSupplier.getEmail().equals(supplier.getEmail()))){
             throw new ApiRequestException("Supplier Already exists");
-       }
-       ;
-        if (supplier.getWebsite() == null || supplier.getWebsite().isEmpty() || !supplier.getWebsite().startsWith("www")) {
+        }
+        if (supplier.getWebsite() == null || supplier.getWebsite().isEmpty() ||
+                !(supplier.getWebsite().startsWith("www") || supplier.getWebsite().startsWith("http") || supplier.getWebsite().startsWith("https"))) {
             throw new ApiRequestException("Website not valid, check field");
         }
         if (supplier.getIndustrySector() == null || supplier.getIndustrySector().isEmpty()) {
             throw new ApiRequestException("Industry sector not valid, check field");
         }
-        if (supplier.getRegistrationDate() == null|| supplier.getRegistrationDate().isBefore(LocalDate.of(2000,1,1))
-            ||supplier.getRegistrationDate().isAfter(LocalDate.of(2024,8,1))) {
-
+        if (supplier.getRegistrationDate() == null || supplier.getRegistrationDate().isBefore(LocalDate.of(2000, 1, 1))
+                || supplier.getRegistrationDate().isAfter(LocalDate.of(2024, 8, 1))) {
             throw new ApiRequestException("Registration date not valid, check field");
         }
     }
+
 }
