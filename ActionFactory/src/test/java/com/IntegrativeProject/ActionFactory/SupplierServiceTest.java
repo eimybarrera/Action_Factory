@@ -1,6 +1,6 @@
 package com.IntegrativeProject.ActionFactory;
 
-import com.IntegrativeProject.ActionFactory.Exceptions.SupplierException;
+import com.IntegrativeProject.ActionFactory.Exceptions.ApiRequestException;
 import com.IntegrativeProject.ActionFactory.model.Supplier;
 import com.IntegrativeProject.ActionFactory.repository.SupplierRepository;
 import com.IntegrativeProject.ActionFactory.service.SupplierService;
@@ -53,7 +53,7 @@ public class SupplierServiceTest {
         supplier.setRegistrationDate(LocalDate.of(2023,05,30));
 
         //Act & Assert
-        SupplierException e = assertThrows(SupplierException.class, () ->
+        ApiRequestException e = assertThrows(ApiRequestException.class, () ->
             this.supplierService.createSupplier(supplier));
         assertEquals("Name not valid, check field",e.getMessage());
 }
@@ -70,7 +70,7 @@ public class SupplierServiceTest {
         supplier.setRegistrationDate(LocalDate.of(2023,05,30));
 
         //Act & Assert
-        SupplierException e = assertThrows(SupplierException.class, () ->
+        ApiRequestException e = assertThrows(ApiRequestException.class, () ->
                 this.supplierService.createSupplier(supplier));
         assertEquals("Address not valid, check field",e.getMessage());
     }
@@ -87,7 +87,7 @@ public class SupplierServiceTest {
         supplier.setRegistrationDate(LocalDate.of(2023,05,30));
 
         //Act & Assert
-        SupplierException e = assertThrows(SupplierException.class, () ->
+        ApiRequestException e = assertThrows(ApiRequestException.class, () ->
                 this.supplierService.createSupplier(supplier));
         assertEquals("Phone number not valid, check field",e.getMessage());
     }
@@ -105,7 +105,7 @@ public class SupplierServiceTest {
         supplier.setRegistrationDate(LocalDate.of(2023,05,30));
 
         //Act & Assert
-        SupplierException e = assertThrows(SupplierException.class, () ->
+        ApiRequestException e = assertThrows(ApiRequestException.class, () ->
                 this.supplierService.createSupplier(supplier));
         assertEquals("Email not valid, check field",e.getMessage());
     }
@@ -123,7 +123,7 @@ public class SupplierServiceTest {
         supplier.setRegistrationDate(LocalDate.of(2023,05,30));
 
         //Act & Assert
-        SupplierException e = assertThrows(SupplierException.class, () ->
+        ApiRequestException e = assertThrows(ApiRequestException.class, () ->
                 this.supplierService.createSupplier(supplier));
         assertEquals("Website not valid, check field",e.getMessage());
     }
@@ -140,7 +140,7 @@ public class SupplierServiceTest {
         supplier.setRegistrationDate(LocalDate.of(2023,05,30));
 
         //Act & Assert
-        SupplierException e = assertThrows(SupplierException.class, () ->
+        ApiRequestException e = assertThrows(ApiRequestException.class, () ->
                 this.supplierService.createSupplier(supplier));
         assertEquals("Industry sector not valid, check field",e.getMessage());
     }
@@ -158,7 +158,7 @@ public class SupplierServiceTest {
         supplier.setIndustrySector("Sector 1");
 
         //Act & Assert
-        SupplierException e = assertThrows(SupplierException.class, () ->
+        ApiRequestException e = assertThrows(ApiRequestException.class, () ->
                 this.supplierService.createSupplier(supplier));
         assertEquals("Registration date not valid, check field",e.getMessage());
     }
@@ -172,7 +172,7 @@ public class SupplierServiceTest {
         when(supplierRepository.findAll()).thenReturn(suppliers);
 
         // Act & Assert
-        SupplierException e = assertThrows(SupplierException.class, () -> {
+        ApiRequestException e = assertThrows(ApiRequestException.class, () -> {
             supplierService.createSupplier(supplier2);
         });
         assertEquals("Supplier Already exists",e.getMessage());
@@ -187,7 +187,7 @@ public class SupplierServiceTest {
         when(supplierRepository.findAll()).thenReturn(suppliers);
 
         // Act & Assert
-        SupplierException e = assertThrows(SupplierException.class, () -> {
+        ApiRequestException e = assertThrows(ApiRequestException.class, () -> {
             supplierService.createSupplier(supplier2);
         });
         assertEquals("Supplier Already exists",e.getMessage());
