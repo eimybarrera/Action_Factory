@@ -6,6 +6,7 @@ import com.IntegrativeProject.ActionFactory.Exceptions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +23,7 @@ public class SupplierService {
         validateSupplier(supplier);
         this.supplierRepository.save(supplier);
     }
+
     public Optional getSupplierById(Long id){
         Optional optionalSupplier = this.supplierRepository.findById(id);
         if(!optionalSupplier.isPresent()){
@@ -85,13 +87,15 @@ public class SupplierService {
             throw new SupplierException("Supplier Already exists");
        }
        ;
-        if (supplier.getWebsite() == null || supplier.getWebsite().isEmpty() || !supplier.getWebsite().startsWith("http")) {
+        if (supplier.getWebsite() == null || supplier.getWebsite().isEmpty() || !supplier.getWebsite().startsWith("www")) {
             throw new SupplierException("Website not valid, check field");
         }
         if (supplier.getIndustrySector() == null || supplier.getIndustrySector().isEmpty()) {
             throw new SupplierException("Industry sector not valid, check field");
         }
-        if (supplier.getRegistrationDate() == null) {
+        if (supplier.getRegistrationDate() == null|| supplier.getRegistrationDate().isBefore(LocalDate.of(2000,1,1))
+            ||supplier.getRegistrationDate().isAfter(LocalDate.of(2024,8,1))) {
+
             throw new SupplierException("Registration date not valid, check field");
         }
     }
