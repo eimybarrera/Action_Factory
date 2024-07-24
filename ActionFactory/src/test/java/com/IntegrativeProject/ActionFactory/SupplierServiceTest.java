@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -205,18 +206,30 @@ public class SupplierServiceTest {
     }
 
     @Test
-    public void createNewSupplier(){
+    public void getNotExistingSuppliers(){
+        Long invalidId= 2L;
         Supplier supplier = new Supplier(1L,"Supplier 1","House 1","3113214456","test@mymail.com","www.test.com","Sector 1",LocalDate.of(2020,8,24));
-        Supplier supplier2 = new Supplier(2L, "Supplier 2", "House 2", "3223225567", "test@mymail.com", "http://www.example.com", "Sector 2", LocalDate.of(2021, 9, 25));
-
-        List<Supplier> suppliers = Collections.singletonList(supplier);
-        when(supplierRepository.findAll()).thenReturn(suppliers);
-
-        // Act & Assert
+        supplierRepository.save(supplier);
         ApiRequestException e = assertThrows(ApiRequestException.class, () -> {
-            supplierService.createSupplier(supplier2);
-        });
-        assertEquals("Supplier Already exists",e.getMessage());
+            supplierService.getSupplierById(invalidId);});
+        assertEquals("Supplier not found, try again with a valid id",e.getMessage());
+    }
+
+    @Test
+    public void getEmptySuppliersList(){
+        ApiRequestException e = assertThrows(ApiRequestException.class, () -> {
+            supplierService.getAllSuppliers();});
+        assertEquals("There is no Suppliers to show, try saving one",e.getMessage());
+    }
+
+    @Test
+    public void updateNotExistingSupplier(){
+        Supplier supplier = new Supplier();
+        supplier.setId(2L);
+
+        ApiRequestException e = assertThrows(ApiRequestException.class, () -> {
+            supplierService.updateSupplier(supplier);});
+        assertEquals("Supplier not found, try again with a valid id",e.getMessage());
     }
 
 
