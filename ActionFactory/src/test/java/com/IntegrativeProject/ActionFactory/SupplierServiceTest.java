@@ -109,6 +109,14 @@ public class SupplierServiceTest {
                 this.supplierService.createSupplier(supplier));
         assertEquals("Email not valid, check field",e.getMessage());
     }
+    @Test
+    public void createSupplierWithInvalidEmail(){
+        Supplier supplier = new Supplier(1L,"Supplier 1","House 1","3113214456","testmymail.com","www.test.com","Sector 1",LocalDate.of(2020,8,24));
+
+        ApiRequestException e = assertThrows(ApiRequestException.class, () ->
+                this.supplierService.createSupplier(supplier));
+        assertEquals("Email not valid, check field",e.getMessage());
+    }
 
     @Test
     public void createSupplierWithNullWebsite(){
@@ -127,6 +135,16 @@ public class SupplierServiceTest {
                 this.supplierService.createSupplier(supplier));
         assertEquals("Website not valid, check field",e.getMessage());
     }
+
+    @Test
+    public void createSupplierWithInvalidWebsite(){
+        Supplier supplier = new Supplier(1L,"Supplier 1","House 1","3113214456","test@mymail.com","ww.test.com","Sector 1",LocalDate.of(2020,8,24));
+
+        ApiRequestException e = assertThrows(ApiRequestException.class, () ->
+                this.supplierService.createSupplier(supplier));
+        assertEquals("Website not valid, check field",e.getMessage());
+    }
+
     @Test
     public void createSupplierWithNullIndustrySector(){
         //Arrange
@@ -162,6 +180,14 @@ public class SupplierServiceTest {
                 this.supplierService.createSupplier(supplier));
         assertEquals("Registration date not valid, check field",e.getMessage());
     }
+    @Test
+    public void createSupplierWithInvalidRegistrationDate(){
+        Supplier supplier = new Supplier(1L,"Supplier 1","House 1","3113214456","test@mymail.com","www.test.com","Sector 1",LocalDate.of(2025,8,24));
+
+        ApiRequestException e = assertThrows(ApiRequestException.class, () ->
+                this.supplierService.createSupplier(supplier));
+        assertEquals("Registration date not valid, check field",e.getMessage());
+    }
 
     @Test
     public void createSupplierWhenAlreadyExists(){
@@ -192,5 +218,6 @@ public class SupplierServiceTest {
         });
         assertEquals("Supplier Already exists",e.getMessage());
     }
+
 
 }
