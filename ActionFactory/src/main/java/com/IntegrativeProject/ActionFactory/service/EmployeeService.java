@@ -61,14 +61,13 @@ public class EmployeeService {
         return employees;
     }
 
-    public  void  deleteEmployee(Long id){
-        Optional<Employee> employee= this.employeeRepository.findById(id);
+    public  void deleteEmployeeById(Long id){
+        Optional<Employee> employee = this.employeeRepository.findById(id);
         if(employee.isPresent()){
             this.employeeRepository.delete(employee.get());
 
-        }
-        else {
-            throw new ApiRequestException("Employee not found");
+        } else {
+            throw new ApiRequestException("Employee with ID: " + id + " not found");
         }
     }
     public void validateEmployee(Employee employee) {
