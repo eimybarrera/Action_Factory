@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.IntegrativeProject.ActionFactory.EmployeeServiceTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2024-07-25T03:33:58" hostname="DELL-EIMY" time="1.554">
+<testsuite name="com.IntegrativeProject.ActionFactory.EmployeeServiceTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2024-07-25T04:27:16" hostname="DELL-EIMY" time="1.085">
   <properties/>
-  <testcase name="testSeeEmployeesNoData()" classname="com.IntegrativeProject.ActionFactory.EmployeeServiceTest" time="1.466"/>
-  <testcase name="testCreateEmployeesSuccess()" classname="com.IntegrativeProject.ActionFactory.EmployeeServiceTest" time="0.032"/>
-  <testcase name="createEmployeeSuccess()" classname="com.IntegrativeProject.ActionFactory.EmployeeServiceTest" time="0.01"/>
-  <testcase name="testDeleteEmployeeByIdNotFound()" classname="com.IntegrativeProject.ActionFactory.EmployeeServiceTest" time="0.007"/>
-  <testcase name="testCreateEmployeesRoleNotFound()" classname="com.IntegrativeProject.ActionFactory.EmployeeServiceTest" time="0.009"/>
-  <testcase name="testSeeEmployees()" classname="com.IntegrativeProject.ActionFactory.EmployeeServiceTest" time="0.005"/>
-  <testcase name="testCreateEmployeeRoleNotFound()" classname="com.IntegrativeProject.ActionFactory.EmployeeServiceTest" time="0.007"/>
+  <testcase name="createEmployeesRoleNotFound()" classname="com.IntegrativeProject.ActionFactory.EmployeeServiceTest" time="1.043"/>
+  <testcase name="testSeeEmployeesNoData()" classname="com.IntegrativeProject.ActionFactory.EmployeeServiceTest" time="0.008"/>
+  <testcase name="createEmployeeRoleNotFound()" classname="com.IntegrativeProject.ActionFactory.EmployeeServiceTest" time="0.004"/>
+  <testcase name="createEmployeesSuccess()" classname="com.IntegrativeProject.ActionFactory.EmployeeServiceTest" time="0.007"/>
+  <testcase name="createEmployeeSuccess()" classname="com.IntegrativeProject.ActionFactory.EmployeeServiceTest" time="0.005"/>
+  <testcase name="testDeleteEmployeeByIdNotFound()" classname="com.IntegrativeProject.ActionFactory.EmployeeServiceTest" time="0.004"/>
+  <testcase name="testSeeEmployees()" classname="com.IntegrativeProject.ActionFactory.EmployeeServiceTest" time="0.003"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
