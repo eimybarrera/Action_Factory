@@ -31,14 +31,6 @@ public class SupplierServiceTest {
         this.supplierService = new SupplierService(supplierRepository);
     }
     //Generar los casos de prueba
-    //When Supplier is Null, there is not an exception for this
-//    public void createNullSupplier(){
-//        //Arrange
-//        Supplier supplier = null;
-//
-//    }
-
-    //When Suppliers Name is Null
 
     @Test
     public void createSupplierWithNullName(){
@@ -230,6 +222,13 @@ public class SupplierServiceTest {
             supplierService.updateSupplier(supplier);});
         assertEquals("Supplier not found, try again with a valid id",e.getMessage());
     }
+    @Test
 
+    public void deleteNotExistingSupplier(){
+        Long invalidId = 1L;
+        ApiRequestException e = assertThrows(ApiRequestException.class, () -> {
+            supplierService.deleteSupplier(invalidId);});
+        assertEquals("Supplier not found, try again with a valid id",e.getMessage());
+    }
 
 }
