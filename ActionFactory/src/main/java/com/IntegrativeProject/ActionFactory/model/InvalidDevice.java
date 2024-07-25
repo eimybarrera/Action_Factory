@@ -13,10 +13,7 @@ public class InvalidDevice {
     @Column(name = "validation_id")
     private Long validationId;
 
-    @OneToOne(
-            cascade = {CascadeType.ALL},
-            orphanRemoval = true
-    )
+    @OneToOne(cascade = {CascadeType.ALL}, orphanRemoval = true)
     @JoinColumn(name ="id")
     private Device device;
 
