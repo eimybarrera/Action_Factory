@@ -84,5 +84,6 @@ public class DeviceController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
 }
 
