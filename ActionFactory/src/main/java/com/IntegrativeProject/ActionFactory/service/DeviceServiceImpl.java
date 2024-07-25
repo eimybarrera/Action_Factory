@@ -110,11 +110,6 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     @Override
-    public void save(MultipartFile file) {
-
-    }
-
-    @Override
     public List<Device> findAll() {
         return deviceRepository.findAll();
     }
