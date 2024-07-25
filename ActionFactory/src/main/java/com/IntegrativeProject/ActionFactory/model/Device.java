@@ -35,6 +35,19 @@ public class Device {
     @JoinColumn(name = "employee_id", referencedColumnName = "id")
     private Employee employee;
 
+    @OneToOne(
+            mappedBy = "device",
+            cascade = {CascadeType.ALL},
+            orphanRemoval = true
+    )
+    private InvalidDevice invalidDevice;
+    @OneToOne(
+            mappedBy = "device",
+            cascade = {CascadeType.ALL},
+            orphanRemoval = true
+    )
+    private ValidDevice validDevice;
+
     public Device(){
     }
 
