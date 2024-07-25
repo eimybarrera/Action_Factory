@@ -223,6 +223,7 @@ public class SupplierServiceTest {
         assertEquals("Supplier not found, try again with a valid id",e.getMessage());
     }
     @Test
+
     public void deleteNotExistingSupplier(){
         Long invalidId = 1L;
         ApiRequestException e = assertThrows(ApiRequestException.class, () -> {
