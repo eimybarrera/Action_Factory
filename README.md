@@ -50,7 +50,19 @@ The core of our company is facilitating the validation and management of devices
 - Validated devices must be stored in a database table with all device information, a validation ID, and the person who performed the upload.
 
 #### Example CSV File:
-
+    ```
+    imei,status,score,validation_status,validation_date,supplier_id,employee_id
+    5478810,CANCELLED,90,Validated,4/17/2024 08:37:23,4,4
+    48619219,READY_TO_USE,96,Invalid,12/9/2023 15:22:01,1,1
+    80792153,CANCELLED,48,Validated,2/3/2022 08:21:54,1,2
+    42781275,CANCELLED,0,Validated,11/12/2023 13:36:33,2,3
+    74964009,CANCELLED,4,Validated,10/16/2022 05:38:03,3,1
+    42711578,READY_TO_USE,35,Invalid,4/11/2023 00:03:27,1,1
+    48175181,READY_TO_USE,11,Validated,2/3/2024 17:38:21,1,4
+    65398427,CANCELLED,0,Validated,4/9/2022 18:30:15,1,3
+    2194899,READY_TO_USE,36,Validated,10/19/2023 18:02:44,4,3
+    66430777,READY_TO_USE,52,Validated,6/30/2024 09:16:06,4,4
+    ```
 
 ### Installation Instructions:
 1. Clone the project using the URL: [https://github.com/eimybarrera/Action_factory.git](https://github.com/eimybarrera/Action_factory.git)
@@ -68,6 +80,9 @@ The core of our company is facilitating the validation and management of devices
 4. Ensure the `spring.datasource.username` and `spring.datasource.password` are correct.
 5. Navigate to the `ActionFactoryApplication` class located in `src/main/java/ActionFactoryApplication` and run it.
 6. Send requests using Insomnia or Postman.
+
+###Endpoints and Requests
+
 
 ### Usage Instructions:
 1. Use Insomnia IDE to interact with the project.
