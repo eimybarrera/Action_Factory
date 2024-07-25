@@ -1,6 +1,5 @@
 package com.IntegrativeProject.ActionFactory.controller;
 
-import com.IntegrativeProject.ActionFactory.Exceptions.ApiRequestException;
 import com.IntegrativeProject.ActionFactory.model.Employee;
 import com.IntegrativeProject.ActionFactory.service.EmployeeService;
 import com.IntegrativeProject.ActionFactory.service.RoleService;
@@ -43,8 +42,8 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteEmployee(@PathVariable("id") Long id){
-        this.employeeService.deleteEmployee(id);
+    public ResponseEntity<String> deleteEmployeeById(@PathVariable("id") Long id){
+        this.employeeService.deleteEmployeeById(id);
         return ResponseEntity.status(HttpStatus.CREATED).body("employee successfully deleted");
     }
 
