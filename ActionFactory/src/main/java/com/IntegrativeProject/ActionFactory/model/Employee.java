@@ -3,6 +3,8 @@ package com.IntegrativeProject.ActionFactory.model;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "employee")
@@ -37,6 +39,9 @@ public class Employee {
     @ManyToOne
     @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = true)//el nullable significa que esta columna no puede ser nula
     private Role role;
+
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Device> devices = new ArrayList<>();
 
     public Employee() {
     }

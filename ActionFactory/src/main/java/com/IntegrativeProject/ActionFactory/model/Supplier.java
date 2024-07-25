@@ -3,6 +3,8 @@ package com.IntegrativeProject.ActionFactory.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "supplier")
@@ -33,6 +35,9 @@ public class Supplier {
 
     @Column(name = "registration_date")
     private LocalDate registrationDate;
+
+    @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Device> devices = new ArrayList<>();
 
     public Supplier() {
     }

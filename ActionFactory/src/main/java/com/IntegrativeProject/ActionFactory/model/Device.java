@@ -27,6 +27,8 @@ public class Device {
     @Column(name = "validation_date")
     private LocalDateTime validationDate;
 
+//    @JoinColumn(name = "supplier_id", referencedColumnName = "id")
+//    private Supplier supplier;
     @ManyToOne
     @JoinColumn(name = "supplier_id", referencedColumnName = "id")
     private Supplier supplier;
@@ -34,6 +36,14 @@ public class Device {
     @ManyToOne
     @JoinColumn(name = "employee_id", referencedColumnName = "id")
     private Employee employee;
+
+    @OneToOne(mappedBy = "device", cascade = CascadeType.ALL, orphanRemoval = true)
+    private InvalidDevice invalidDevice;
+
+    @OneToOne(mappedBy = "device", cascade = CascadeType.ALL, orphanRemoval = true)
+    private ValidDevice validDevice;
+
+
 
     public Device(){
     }
