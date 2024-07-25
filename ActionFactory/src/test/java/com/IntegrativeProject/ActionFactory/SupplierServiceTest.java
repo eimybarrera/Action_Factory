@@ -6,8 +6,10 @@ import com.IntegrativeProject.ActionFactory.repository.SupplierRepository;
 import com.IntegrativeProject.ActionFactory.service.SupplierService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -231,4 +233,24 @@ public class SupplierServiceTest {
         assertEquals("Supplier not found, try again with a valid id",e.getMessage());
     }
 
+    @Test
+    public void createSuppliersWhenOneAlreadyExists() {
+        // Arrange
+        Supplier supplier1 = new Supplier(1L, "Supplier 1", "House 1", "3113214456", "test1@mymail.com", "www.test1.com", "Sector 1", LocalDate.of(2020, 8, 24));
+        Supplier supplier2 = new Supplier(2L, "Supplier 2", "House 2", "3223225567", "test1@mymail.com", "www.test2.com", "Sector 2", LocalDate.of(2021, 9, 25));
+
+        List<Supplier> suppliers = Arrays.asList(supplier1, supplier2);
+
+        when(supplierRepository.findAll()).thenReturn(List.of(supplier1));
+
+        // Act & Assert
+        ApiRequestException e = assertThrows(ApiRequestException.class, () -> {
+            supplierService.createSuppliers(suppliers);
+        });
+        assertEquals("Supplier Already exists", e.getMessage());
+
+        // Verify that saveAll was never called
+        Mockito.verify(supplierRepository, Mockito.never()).saveAll(Mockito.anyList());
+    }
 }
+
