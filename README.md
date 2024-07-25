@@ -81,7 +81,7 @@ The core of our company is facilitating the validation and management of devices
 5. Navigate to the `ActionFactoryApplication` class located in `src/main/java/ActionFactoryApplication` and run it.
 6. Send requests using Insomnia or Postman.
 
-###Endpoints and Requests
+## Endpoints and Requests
 
 
 ### Usage Instructions:
