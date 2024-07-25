@@ -54,9 +54,9 @@ public class SupplierServiceTest {
 
         //Act & Assert
         ApiRequestException e = assertThrows(ApiRequestException.class, () ->
-            this.supplierService.createSupplier(supplier));
+                this.supplierService.createSupplier(supplier));
         assertEquals("Name not valid, check field",e.getMessage());
-}
+    }
     @Test
     public void createSupplierWithNullAddress(){
         //Arrange
@@ -109,6 +109,14 @@ public class SupplierServiceTest {
                 this.supplierService.createSupplier(supplier));
         assertEquals("Email not valid, check field",e.getMessage());
     }
+    @Test
+    public void createSupplierWithInvalidEmail(){
+        Supplier supplier = new Supplier(1L,"Supplier 1","House 1","3113214456","testmymail.com","www.test.com","Sector 1",LocalDate.of(2020,8,24));
+
+        ApiRequestException e = assertThrows(ApiRequestException.class, () ->
+                this.supplierService.createSupplier(supplier));
+        assertEquals("Email not valid, check field",e.getMessage());
+    }
 
     @Test
     public void createSupplierWithNullWebsite(){
@@ -127,6 +135,16 @@ public class SupplierServiceTest {
                 this.supplierService.createSupplier(supplier));
         assertEquals("Website not valid, check field",e.getMessage());
     }
+
+    @Test
+    public void createSupplierWithInvalidWebsite(){
+        Supplier supplier = new Supplier(1L,"Supplier 1","House 1","3113214456","test@mymail.com","ww.test.com","Sector 1",LocalDate.of(2020,8,24));
+
+        ApiRequestException e = assertThrows(ApiRequestException.class, () ->
+                this.supplierService.createSupplier(supplier));
+        assertEquals("Website not valid, check field",e.getMessage());
+    }
+
     @Test
     public void createSupplierWithNullIndustrySector(){
         //Arrange
@@ -162,6 +180,14 @@ public class SupplierServiceTest {
                 this.supplierService.createSupplier(supplier));
         assertEquals("Registration date not valid, check field",e.getMessage());
     }
+    @Test
+    public void createSupplierWithInvalidRegistrationDate(){
+        Supplier supplier = new Supplier(1L,"Supplier 1","House 1","3113214456","test@mymail.com","www.test.com","Sector 1",LocalDate.of(2025,8,24));
+
+        ApiRequestException e = assertThrows(ApiRequestException.class, () ->
+                this.supplierService.createSupplier(supplier));
+        assertEquals("Registration date not valid, check field",e.getMessage());
+    }
 
     @Test
     public void createSupplierWhenAlreadyExists(){
@@ -179,18 +205,31 @@ public class SupplierServiceTest {
     }
 
     @Test
-    public void createNewSupplier(){
+    public void getNotExistingSuppliers(){
+        Long invalidId= 2L;
         Supplier supplier = new Supplier(1L,"Supplier 1","House 1","3113214456","test@mymail.com","www.test.com","Sector 1",LocalDate.of(2020,8,24));
-        Supplier supplier2 = new Supplier(2L, "Supplier 2", "House 2", "3223225567", "test@mymail.com", "http://www.example.com", "Sector 2", LocalDate.of(2021, 9, 25));
-
-        List<Supplier> suppliers = Collections.singletonList(supplier);
-        when(supplierRepository.findAll()).thenReturn(suppliers);
-
-        // Act & Assert
+        supplierRepository.save(supplier);
         ApiRequestException e = assertThrows(ApiRequestException.class, () -> {
-            supplierService.createSupplier(supplier2);
-        });
-        assertEquals("Supplier Already exists",e.getMessage());
+            supplierService.getSupplierById(invalidId);});
+        assertEquals("Supplier not found, try again with a valid id",e.getMessage());
     }
+
+    @Test
+    public void getEmptySuppliersList(){
+        ApiRequestException e = assertThrows(ApiRequestException.class, () -> {
+            supplierService.getAllSuppliers();});
+        assertEquals("There is no Suppliers to show, try saving one",e.getMessage());
+    }
+
+    @Test
+    public void updateNotExistingSupplier(){
+        Supplier supplier = new Supplier();
+        supplier.setId(2L);
+
+        ApiRequestException e = assertThrows(ApiRequestException.class, () -> {
+            supplierService.updateSupplier(supplier);});
+        assertEquals("Supplier not found, try again with a valid id",e.getMessage());
+    }
+
 
 }

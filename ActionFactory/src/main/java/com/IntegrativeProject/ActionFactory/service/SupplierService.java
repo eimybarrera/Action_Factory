@@ -35,7 +35,7 @@ public class SupplierService {
         this.supplierRepository.saveAll(supplierList);
     }
 
-
+    //This method allows to consult info of one existing supplier
     public Optional getSupplierById(Long id){
         Optional optionalSupplier = this.supplierRepository.findById(id);
         if(!optionalSupplier.isPresent()){
@@ -44,6 +44,7 @@ public class SupplierService {
         return optionalSupplier;
     }
 
+    //This method allows the user to see a List of existing Suppliers
     public List<Supplier> getAllSuppliers(){
         List<Supplier> suppliers = this.supplierRepository.findAll();
         if(suppliers.isEmpty()){
@@ -56,7 +57,7 @@ public class SupplierService {
     public void deleteSupplier(Long id){
         Optional optionalSupplier = this.supplierRepository.findById(id);
         if(!optionalSupplier.isPresent()){
-            throw new ApiRequestException("Supplier not found, try again with a valid id\"");
+            throw new ApiRequestException("Supplier not found, try again with a valid id");
         }
         this.supplierRepository.deleteById(id);
     }
@@ -65,7 +66,7 @@ public class SupplierService {
     public Supplier updateSupplier(Supplier supplier){
         Optional<Supplier> optionalSupplier = this.supplierRepository.findById(supplier.getId());
         if(!optionalSupplier.isPresent()){ //If supplier is not found by id, throw exception
-            throw new ApiRequestException("Supplier not found, try again with a valid id\"");
+            throw new ApiRequestException("Supplier not found, try again with a valid id");
         } //If supplier is found, set new information
         Supplier existingSupplier = optionalSupplier.get();
         existingSupplier.setName(supplier.getName());
