@@ -3,6 +3,7 @@ package com.IntegrativeProject.ActionFactory.controller;
 import com.IntegrativeProject.ActionFactory.Exceptions.ApiRequestException;
 import com.IntegrativeProject.ActionFactory.model.Supplier;
 import com.IntegrativeProject.ActionFactory.service.SupplierService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,8 @@ public class SupplierController {
         this.supplierService = supplierService;
     }
     @PostMapping()
-    public ResponseEntity<String> createSupplier(@RequestBody Supplier supplier) {
+    public ResponseEntity<String> createSupplier(
+            @RequestBody Supplier supplier) {
         try {
             this.supplierService.createSupplier(supplier);
             return ResponseEntity.status(HttpStatus.CREATED).body("Supplier created successfully");
