@@ -115,9 +115,9 @@ public class SupplierService {
                 || supplier.getRegistrationDate().isAfter(LocalDate.of(2024, 8, 1))) {
             throw new ApiRequestException("Registration date not valid, check field");
         }
-//        if (supplier.getEmployee() == null || supplier.getEmployee().getId() == null) {
-//            throw new ApiRequestException("Employee not valid, check field");
-//        }
+        if (supplier.getEmployee() == null || supplier.getEmployee().getId() == null) {
+            throw new ApiRequestException("Employee not valid, check field");
+        }
         Optional<Employee> optionalEmployee = employeeRepository.findById(supplier.getEmployee().getId());
         if (!optionalEmployee.isPresent()) {
             throw new ApiRequestException("Employee does not exist");
