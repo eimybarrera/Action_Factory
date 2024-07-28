@@ -6,7 +6,7 @@ Action Factory is being developed by a dedicated team of four as part of our bac
 ## Project Description
 Action Factory seeks to revolutionize the validation process for devices from allied providers. This automated and robust system will efficiently and accurately manage the information of business partners and devices, freeing employees from repetitive manual tasks.
 
-### Company Management:
+### Supplier Management:
 - **ID**: Provider ID
 - **Name**: Provider Name
 - **Address**: Provider Address
@@ -15,13 +15,15 @@ Action Factory seeks to revolutionize the validation process for devices from al
 - **Website**: Provider Website
 - **Industry Sector**: Provider Industry Sector
 - **Registration Date**: Provider Registration Date
+- **Employee Id**: Employee who is in charge of the supplier/Company
 
 ### Functionalities:
 1. **Creation and Update of Providers**: Only employees with the coordinator role can perform this action.
 2. **Viewing and Searching Providers**.
 
 ### Employee Management:
-The system will also manage the employees of Action Factory, where employees can be created and assigned specific roles that allow them to perform tasks effectively and responsibly.
+The system will also manage the employees of Action Factory, where employees can be created and assigned specific roles that allow them to perform tasks effectively and responsibly. An employee is defined by the following attributes.
+
 
 #### Roles:
 - **Coordinator**: Has the authority to add, update, and validate companies, and to execute and supervise device validations.
@@ -32,10 +34,10 @@ The system will also manage the employees of Action Factory, where employees can
 - **Name**: The full name of the employee.
 - **Email**: The employee's email address for communication and identification.
 - **Password**: The employee's password for system authentication.
-- **Role**: The role assigned to the employee (Coordinator or Validator).
 - **Hiring Date**: The date the employee joined Action Factory.
 - **Last Access**: The date and time of the employee's last system access.
 - **Status**: The current status of the employee in the company (active, inactive, etc.).
+- **Role**: The role assigned to the employee (Coordinator or Validator).
 
 ### Validation Management:
 The core of our company is facilitating the validation and management of devices. The system must be capable of receiving CSV files sent by the provider containing device information.
@@ -110,10 +112,10 @@ The core of our company is facilitating the validation and management of devices
 - GitHub project management.
 
 ## Authors
-- Angie Guevara
-- Eimy Garcia
-- Maria Camila Berrio
-- David Herrera
+- Angie Guevara: https://www.linkedin.com/in/angie-guevara-developer/
+- Eimy Garcia: https://www.linkedin.com/in/eimy-garcia-backend/
+- Maria Camila Berrio: http://www.linkedin.com/in/maria-camila-berrio-alzate
+- David Herrera: https://www.linkedin.com/in/david-herrera-back-developer/
 
 ## License
 
