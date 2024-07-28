@@ -1,7 +1,10 @@
 package com.IntegrativeProject.ActionFactory;
 
 import com.IntegrativeProject.ActionFactory.Exceptions.ApiRequestException;
+import com.IntegrativeProject.ActionFactory.model.Employee;
+import com.IntegrativeProject.ActionFactory.model.Role;
 import com.IntegrativeProject.ActionFactory.model.Supplier;
+import com.IntegrativeProject.ActionFactory.repository.EmployeeRepository;
 import com.IntegrativeProject.ActionFactory.repository.SupplierRepository;
 import com.IntegrativeProject.ActionFactory.service.SupplierService;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,9 +12,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -23,20 +28,35 @@ public class SupplierServiceTest {
     //Add Dependencies
     private SupplierService supplierService;
     private SupplierRepository supplierRepository;
+    private EmployeeRepository employeeRepository;
     //Junit 5!
 
     @BeforeEach
     public void setUp(){
         //Mock
         this.supplierRepository = mock(SupplierRepository.class);
-        //PREGUNTA: Se debe inyectar también el repositorio?
-        this.supplierService = new SupplierService(supplierRepository);
+        this.employeeRepository = mock(EmployeeRepository.class);
+        this.supplierService = new SupplierService(supplierRepository, employeeRepository);
+        Role role1 = new Role("Validator");
+        role1.setId(1L);
+
+        Role role2 = new Role("Coordinator");
+        role1.setId(2L);
+        Employee employee1 = new Employee(123456789L, "Eimy", "eimy.gb@example.com", "Password123",
+                LocalDate.now(), LocalDateTime.now(), "Active", role2);
+
+        Employee employee2 = new Employee(123456789L, "Eimy", "eimy.gb@example.com", "Password123",
+                LocalDate.now(), LocalDateTime.now(), "Active", role2);
+
     }
     //Generar los casos de prueba
 
     @Test
     public void createSupplierWithNullName(){
         //Arrange
+        Role role2 = new Role("Coordinator");
+        Employee employee1 = new Employee(123456789L, "Eimy", "eimy.gb@example.com", "Password123",
+                LocalDate.now(), LocalDateTime.now(), "Active", role2);
         Supplier supplier = new Supplier();
         supplier.setId(1L);
         supplier.setAddress("House 1");
@@ -44,16 +64,22 @@ public class SupplierServiceTest {
         supplier.setEmail("test@mymail.com");
         supplier.setWebsite("www.test.com");
         supplier.setIndustrySector("Sector 1");
-        supplier.setRegistrationDate(LocalDate.of(2023,05,30));
+        supplier.setRegistrationDate(LocalDate.of(2023,5,30));
+        supplier.setEmployee(employee1);
 
         //Act & Assert
         ApiRequestException e = assertThrows(ApiRequestException.class, () ->
                 this.supplierService.createSupplier(supplier));
         assertEquals("Name not valid, check field",e.getMessage());
     }
+
     @Test
     public void createSupplierWithNullAddress(){
         //Arrange
+        Role role2 = new Role("Coordinator");
+        Employee employee1 = new Employee(123456789L, "Eimy", "eimy.gb@example.com", "Password123",
+                LocalDate.now(), LocalDateTime.now(), "Active", role2);
+
         Supplier supplier = new Supplier();
         supplier.setId(1L);
         supplier.setName("Supplier");
@@ -62,6 +88,7 @@ public class SupplierServiceTest {
         supplier.setWebsite("www.test.com");
         supplier.setIndustrySector("Sector 1");
         supplier.setRegistrationDate(LocalDate.of(2023,05,30));
+        supplier.setEmployee(employee1);
 
         //Act & Assert
         ApiRequestException e = assertThrows(ApiRequestException.class, () ->
@@ -71,6 +98,9 @@ public class SupplierServiceTest {
     @Test
     public void createSupplierWithNullPhoneNumber(){
         //Arrange
+        Role role2 = new Role("Coordinator");
+        Employee employee1 = new Employee(123456789L, "Eimy", "eimy.gb@example.com", "Password123",
+                LocalDate.now(), LocalDateTime.now(), "Active", role2);
         Supplier supplier = new Supplier();
         supplier.setId(1L);
         supplier.setName("Supplier");
@@ -79,6 +109,7 @@ public class SupplierServiceTest {
         supplier.setWebsite("www.test.com");
         supplier.setIndustrySector("Sector 1");
         supplier.setRegistrationDate(LocalDate.of(2023,05,30));
+        supplier.setEmployee(employee1);
 
         //Act & Assert
         ApiRequestException e = assertThrows(ApiRequestException.class, () ->
@@ -89,6 +120,9 @@ public class SupplierServiceTest {
     @Test
     public void createSupplierWithNullEmail(){
         //Arrange
+        Role role2 = new Role("Coordinator");
+        Employee employee1 = new Employee(123456789L, "Eimy", "eimy.gb@example.com", "Password123",
+                LocalDate.now(), LocalDateTime.now(), "Active", role2);
         Supplier supplier = new Supplier();
         supplier.setId(1L);
         supplier.setName("Supplier");
@@ -97,6 +131,7 @@ public class SupplierServiceTest {
         supplier.setWebsite("www.test.com");
         supplier.setIndustrySector("Sector 1");
         supplier.setRegistrationDate(LocalDate.of(2023,05,30));
+        supplier.setEmployee(employee1);
 
         //Act & Assert
         ApiRequestException e = assertThrows(ApiRequestException.class, () ->
@@ -105,7 +140,10 @@ public class SupplierServiceTest {
     }
     @Test
     public void createSupplierWithInvalidEmail(){
-        Supplier supplier = new Supplier(1L,"Supplier 1","House 1","3113214456","testmymail.com","www.test.com","Sector 1",LocalDate.of(2020,8,24));
+        Role role2 = new Role("Coordinator");
+        Employee employee1 = new Employee(123456789L, "Eimy", "eimy.gb@example.com", "Password123",
+                LocalDate.now(), LocalDateTime.now(), "Active", role2);
+        Supplier supplier = new Supplier(1L,"Supplier 1","House 1","3113214456","testmymail.com","www.test.com","Sector 1",LocalDate.of(2020,8,24), employee1);
 
         ApiRequestException e = assertThrows(ApiRequestException.class, () ->
                 this.supplierService.createSupplier(supplier));
@@ -115,6 +153,10 @@ public class SupplierServiceTest {
     @Test
     public void createSupplierWithNullWebsite(){
         //Arrange
+        Role role2 = new Role("Coordinator");
+        Employee employee1 = new Employee(123456789L, "Eimy", "eimy.gb@example.com", "Password123",
+                LocalDate.now(), LocalDateTime.now(), "Active", role2);
+
         Supplier supplier = new Supplier();
         supplier.setId(1L);
         supplier.setName("Supplier");
@@ -123,6 +165,7 @@ public class SupplierServiceTest {
         supplier.setEmail("test@mymail.com");
         supplier.setIndustrySector("Sector 1");
         supplier.setRegistrationDate(LocalDate.of(2023,05,30));
+        supplier.setEmployee(employee1);
 
         //Act & Assert
         ApiRequestException e = assertThrows(ApiRequestException.class, () ->
@@ -132,7 +175,10 @@ public class SupplierServiceTest {
 
     @Test
     public void createSupplierWithInvalidWebsite(){
-        Supplier supplier = new Supplier(1L,"Supplier 1","House 1","3113214456","test@mymail.com","ww.test.com","Sector 1",LocalDate.of(2020,8,24));
+        Role role2 = new Role("Coordinator");
+        Employee employee1 = new Employee(123456789L, "Eimy", "eimy.gb@example.com", "Password123",
+                LocalDate.now(), LocalDateTime.now(), "Active", role2);
+        Supplier supplier = new Supplier(1L,"Supplier 1","House 1","3113214456","test@mymail.com","ww.test.com","Sector 1",LocalDate.of(2020,8,24), employee1);
 
         ApiRequestException e = assertThrows(ApiRequestException.class, () ->
                 this.supplierService.createSupplier(supplier));
@@ -142,6 +188,9 @@ public class SupplierServiceTest {
     @Test
     public void createSupplierWithNullIndustrySector(){
         //Arrange
+        Role role2 = new Role("Coordinator");
+        Employee employee1 = new Employee(123456789L, "Eimy", "eimy.gb@example.com", "Password123",
+                LocalDate.now(), LocalDateTime.now(), "Active", role2);
         Supplier supplier = new Supplier();
         supplier.setId(1L);
         supplier.setName("Supplier");
@@ -150,6 +199,7 @@ public class SupplierServiceTest {
         supplier.setEmail("test@mymail.com");
         supplier.setWebsite("www.test.com");
         supplier.setRegistrationDate(LocalDate.of(2023,05,30));
+        supplier.setEmployee(employee1);
 
         //Act & Assert
         ApiRequestException e = assertThrows(ApiRequestException.class, () ->
@@ -160,6 +210,9 @@ public class SupplierServiceTest {
     @Test
     public void createSupplierWithNullRegistrationDate(){
         //Arrange
+        Role role2 = new Role("Coordinator");
+        Employee employee1 = new Employee(123456789L, "Eimy", "eimy.gb@example.com", "Password123",
+                LocalDate.now(), LocalDateTime.now(), "Active", role2);
         Supplier supplier = new Supplier();
         supplier.setId(1L);
         supplier.setName("Supplier");
@@ -168,6 +221,7 @@ public class SupplierServiceTest {
         supplier.setEmail("test@mymail.com");
         supplier.setWebsite("www.test.com");
         supplier.setIndustrySector("Sector 1");
+        supplier.setEmployee(employee1);
 
         //Act & Assert
         ApiRequestException e = assertThrows(ApiRequestException.class, () ->
@@ -176,7 +230,10 @@ public class SupplierServiceTest {
     }
     @Test
     public void createSupplierWithInvalidRegistrationDate(){
-        Supplier supplier = new Supplier(1L,"Supplier 1","House 1","3113214456","test@mymail.com","www.test.com","Sector 1",LocalDate.of(2025,8,24));
+        Role role2 = new Role("Coordinator");
+        Employee employee1 = new Employee(123456789L, "Eimy", "eimy.gb@example.com", "Password123",
+                LocalDate.now(), LocalDateTime.now(), "Active", role2);
+        Supplier supplier = new Supplier(1L,"Supplier 1","House 1","3113214456","test@mymail.com","www.test.com","Sector 1",LocalDate.of(2025,8,24),employee1);
 
         ApiRequestException e = assertThrows(ApiRequestException.class, () ->
                 this.supplierService.createSupplier(supplier));
@@ -185,8 +242,11 @@ public class SupplierServiceTest {
 
     @Test
     public void createSupplierWhenAlreadyExists(){
-        Supplier supplier = new Supplier(1L,"Supplier 1","House 1","3113214456","test@mymail.com","www.test.com","Sector 1",LocalDate.of(2020,8,24));
-        Supplier supplier2 = new Supplier(2L, "Supplier 2", "House 2", "3223225567", "test@mymail.com", "http://www.example.com", "Sector 2", LocalDate.of(2021, 9, 25));
+        Role role2 = new Role("Coordinator");
+        Employee employee1 = new Employee(123456789L, "Eimy", "eimy.gb@example.com", "Password123",
+                LocalDate.now(), LocalDateTime.now(), "Active", role2);
+        Supplier supplier = new Supplier(1L,"Supplier 1","House 1","3113214456","test@mymail.com","www.test.com","Sector 1",LocalDate.of(2020,8,24),employee1);
+        Supplier supplier2 = new Supplier(2L, "Supplier 2", "House 2", "3223225567", "test@mymail.com", "http://www.example.com", "Sector 2", LocalDate.of(2021, 9, 25),employee1);
 
         List<Supplier> suppliers = Collections.singletonList(supplier);
         when(supplierRepository.findAll()).thenReturn(suppliers);
@@ -200,8 +260,11 @@ public class SupplierServiceTest {
 
     @Test
     public void getNotExistingSuppliers(){
+        Role role2 = new Role("Coordinator");
+        Employee employee1 = new Employee(123456789L, "Eimy", "eimy.gb@example.com", "Password123",
+                LocalDate.now(), LocalDateTime.now(), "Active", role2);
         Long invalidId= 2L;
-        Supplier supplier = new Supplier(1L,"Supplier 1","House 1","3113214456","test@mymail.com","www.test.com","Sector 1",LocalDate.of(2020,8,24));
+        Supplier supplier = new Supplier(1L,"Supplier 1","House 1","3113214456","test@mymail.com","www.test.com","Sector 1",LocalDate.of(2020,8,24),employee1);
         supplierRepository.save(supplier);
         ApiRequestException e = assertThrows(ApiRequestException.class, () -> {
             supplierService.getSupplierById(invalidId);});
@@ -236,8 +299,11 @@ public class SupplierServiceTest {
     @Test
     public void createSuppliersWhenOneAlreadyExists() {
         // Arrange
-        Supplier supplier1 = new Supplier(1L, "Supplier 1", "House 1", "3113214456", "test1@mymail.com", "www.test1.com", "Sector 1", LocalDate.of(2020, 8, 24));
-        Supplier supplier2 = new Supplier(2L, "Supplier 2", "House 2", "3223225567", "test1@mymail.com", "www.test2.com", "Sector 2", LocalDate.of(2021, 9, 25));
+        Role role2 = new Role("Coordinator");
+        Employee employee1 = new Employee(123456789L, "Eimy", "eimy.gb@example.com", "Password123",
+                LocalDate.now(), LocalDateTime.now(), "Active", role2);
+        Supplier supplier1 = new Supplier(1L, "Supplier 1", "House 1", "3113214456", "test1@mymail.com", "www.test1.com", "Sector 1", LocalDate.of(2020, 8, 24), employee1);
+        Supplier supplier2 = new Supplier(2L, "Supplier 2", "House 2", "3223225567", "test1@mymail.com", "www.test2.com", "Sector 2", LocalDate.of(2021, 9, 25), employee1);
 
         List<Supplier> suppliers = Arrays.asList(supplier1, supplier2);
 
@@ -252,5 +318,7 @@ public class SupplierServiceTest {
         // Verify that saveAll was never called
         Mockito.verify(supplierRepository, Mockito.never()).saveAll(Mockito.anyList());
     }
+
 }
+
 
